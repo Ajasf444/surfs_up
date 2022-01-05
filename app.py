@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 from flask import Flask, jsonify
 
-engine = create_engine('sqlite:///hawaii.sqlite')
+engine = create_engine('sqlite:///hawaii.sqlite?check_same_thread=False') # , connect_args = {'check_same_thread' : False}
 Base = automap_base()
 Base.prepare(engine, reflect = True)
 
@@ -74,4 +74,4 @@ def stats(start = None, end = None):
         filter(Measurement.date >= start).\
         filter(Measurement.date <= end).all()
     temps = list(np.ravel(results))
-    return jsonify(temps)
+    return jsonify(temps = temps)
